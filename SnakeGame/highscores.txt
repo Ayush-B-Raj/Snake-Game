@@ -1,0 +1,3 @@
+Easy:60
+Medium:220
+Hard:60

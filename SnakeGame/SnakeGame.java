@@ -168,19 +168,31 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     }
 
     private void drawStartScreen(Graphics g) {
-        String text = "Press SPACE to Start";
-        g.setColor(Color.WHITE);
+        String startText = "Press SPACE to Start";
+        String gameOverText = (!running && timer != null) ? "Game Over..." : "";
+    
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        int textWidth = metrics.stringWidth(text);
+        FontMetrics metrics = g.getFontMetrics();
+    
+        int startTextWidth = metrics.stringWidth(startText);
+        int gameOverTextWidth = metrics.stringWidth(gameOverText);
         int textHeight = metrics.getHeight();
     
-        // Move it slightly to the left (e.g., 40 pixels)
-        int centerX = (getWidth() - textWidth) / 2 - 200;
+        // Move slightly to the left (200px)
+        int centerX = (getWidth() - startTextWidth) / 2 - 200;
         int centerY = (getHeight() - textHeight) / 2 + metrics.getAscent();
     
-        g.drawString(text, centerX, centerY);
+        // Draw Game Over text in RED (if game has started before and ended)
+        if (!running && timer != null) {
+            g.setColor(Color.RED);
+            g.drawString(gameOverText, centerX + (startTextWidth - gameOverTextWidth) / 2, centerY - 40);
+        }
+    
+        // Draw Press SPACE to Start text
+        g.setColor(Color.WHITE);
+        g.drawString(startText, centerX, centerY);
     }
+    
     
     private void move() {
         for (int i = snakeLength; i > 0; i--) {
